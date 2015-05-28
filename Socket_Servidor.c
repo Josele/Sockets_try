@@ -18,7 +18,7 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <errno.h>
-
+#include <arpa/inet.h>
 #include "Socket_Servidor.h"
 /*
 * Se le pasa un socket de servidor y acepta en el una conexion de cliente.
@@ -27,10 +27,10 @@
 */
 int Acepta_Conexion_Cliente (int Descriptor)
 {
-	int Longitud_Cliente;
+	socklen_t Longitud_Cliente;
 	struct sockaddr_in Cliente; 
 	int Hijo;
-
+	char str[INET_ADDRSTRLEN];
 	/*
 	* La llamada a la funcion accept requiere que el parametro 
 	* Longitud_Cliente contenga inicialmente el tamano de la
@@ -40,15 +40,14 @@ int Acepta_Conexion_Cliente (int Descriptor)
 	*/
 	Longitud_Cliente = sizeof (Cliente);
 	//sin_size=sizeof(struct sockaddr_in);
-	Hijo = accept (Descriptor,(struct sockaddr*)&Cliente, &Longitud_Cliente);
+	Hijo = accept (Descriptor,(struct sockaddr *)&Cliente, &Longitud_Cliente);
 	if (Hijo == -1)
 	{
 		printf("error en accept()\n");
 		return -1;
 	}
-/*
- 	printf("Se obtuvo una conexión desde %s\n",
-             inet_ntoa(Cliente.sin_addr) ); 
+	inet_ntop(AF_INET, &(Cliente.sin_addr), str, INET_ADDRSTRLEN);
+ 	printf("Se obtuvo una conexión desde %s\n",str); 
      	/* que mostrará la IP del cliente */
 	
 	/*
@@ -65,7 +64,7 @@ int Acepta_Conexion_Cliente (int Descriptor)
 int Abre_Socket_Inet (char *Servicio, uint16_t Port,int Backlog)
 {
 	struct sockaddr_in Direccion;
-	struct sockaddr Cliente;
+	
 	//socklen_t Longitud_Cliente;
 	//struct servent *Puerto;
 	int Descriptor;/* los ficheros descriptores */	
