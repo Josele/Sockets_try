@@ -7,7 +7,7 @@
 all : Servidor Cliente
 
 # Coloca aqui el path donde te hayas descargado y compilado la mini-librea de sockets
-PATH_CHSOCKET=/home/josele/Sockets_pru/Sockets_prog
+PATH_CHSOCKET=Sockets_prog
 
 CFLAGS = -g -I. -I$(PATH_CHSOCKET)
 
