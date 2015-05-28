@@ -1,21 +1,11 @@
-#
-# Javier Abeln. 9 Dic 2003
-#
-# Makefile para la construccn del cliente y servidor que conectan con un servidor
-# y cliente de java.
-#
-all : Servidor Cliente
+CC=gcc
+CFLAGS=-g -Wall -O -I.
+LDFLAGS=
+LDLIBS=
+all : Server 
 
-# Coloca aqui el path donde te hayas descargado y compilado la mini-librea de sockets
-PATH_CHSOCKET=LibSock
+Server : Server.o Socket_Servidor.o 
 
-CFLAGS = -g -I. -I$(PATH_CHSOCKET)
+clean:
+	$(RM) *.o *~ m Server
 
-Servidor : Servidor.o
-	cc Servidor.o -L$(PATH_CHSOCKET) -lChSocket -o Servidor
-
-Cliente : Cliente.o
-	cc Cliente.o -L$(PATH_CHSOCKET) -lChSocket -o Cliente
-
-clean :
-	rm *.o Cliente Servidor

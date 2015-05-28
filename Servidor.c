@@ -1,84 +1,73 @@
-/*
-* Javier Abellan, 9 Dic 2003
-*
-* Programa servidor en C para conectarse con un cliente java.
-*/
-#include <Socket_Servidor.h>
-#include <Socket.h>
-#include <string.h>
-#include <stdio.h>
 
-main ()
+/* Estos son los ficheros de cabecera usuales */
+#include <stdio.h>          
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+#define PORT 3550 /* El puerto que ser谩 abierto */
+#define BACKLOG 2 /* El n煤mero de conexiones permitidas */
+
+main()
 {
-	/*
-	* Descriptores de socket servidor y de socket con el cliente
-	*/
-	int Socket_Servidor;
-	int Socket_Cliente;
-   int Aux;
-   int Longitud_Cadena;
-	char Cadena[100];
 
-	/*
-	* Se abre el socket servidor, con el servicio "cpp_java" dado de
-	* alta en /etc/services. El n鷐ero de dicho servicio debe ser 35557, que es
-   * el que se ha puesto en el c骴igo java del cliente.
-	*/
- printf ("aqui\n");
-	Socket_Servidor = Abre_Socket_Inet ("cpp_java");
-	if (Socket_Servidor == -1)
-	{
-		printf ("No se puede abrir socket servidor\n");
-		exit (-1);
-	}
-printf ("aqui\n");
+   int fd, fd2; /* los ficheros descriptores */
 
-	/*
-	* Se espera un cliente que quiera conectarse
-	*/
-	Socket_Cliente = Acepta_Conexion_Cliente (Socket_Servidor);
-	if (Socket_Servidor == -1)
-	{
-		printf ("No se puede abrir socket de cliente\n");
-		exit (-1);
-	}
+   struct sockaddr_in server; 
+   /* para la informaci贸n de la direcci贸n del servidor */
 
-   /*
-    * Se envia un entero con la longitud de una cadena (incluido el \0 del final) y
-    * la cadena.
-    */
-   Longitud_Cadena = 5;
-   strcpy (Cadena, "Hola");
+   struct sockaddr_in client; 
+   /* para la informaci贸n de la direcci贸n del cliente */
 
-   /* El entero que se env韆 por el socket hay que transformalo a formato red */
-   Aux = htonl (Longitud_Cadena);
+   int sin_size;
 
-   /* Se env韆 el entero transformado */
-   Escribe_Socket (Socket_Cliente, (char *)&Aux, sizeof(Longitud_Cadena));
-   printf ("Servidor C: Enviado %d\n", Longitud_Cadena-1);
-  
-   /* Se env韆 la cadena */
-   Escribe_Socket (Socket_Cliente, Cadena, Longitud_Cadena);
-   printf ("Servidor C: Enviado %s\n", Cadena);
-   
-   
-	/*
-	* Se lee la informacion del cliente, primero el n鷐ero de caracteres de la cadena
-   * que vamos a recibir (incluido el \0) y luego la cadena.
-	*/
-   Lee_Socket (Socket_Cliente, (char *)&Aux, sizeof(Longitud_Cadena));
+   /* A continuaci贸n la llamada a socket() */
+   if ((fd=socket(AF_INET, SOCK_STREAM, 0)) == -1 ) {  
+      printf("error en socket()\n");
+      exit(-1);
+   }
 
-   /* El entero recibido hay que transformarlo de formato red a formato hardware */
-   Longitud_Cadena = ntohl(Aux);
-   printf ("Servidor C: Recibido %d\n", Longitud_Cadena-1);
-  
-   /* Se lee la cadena */
-	Lee_Socket (Socket_Cliente, Cadena, Longitud_Cadena);
-   printf ("Servidor C: Recibido %s\n", Cadena);
+   server.sin_family = AF_INET;         
 
-	/*
-	* Se cierran los sockets
-	*/
-	close (Socket_Cliente);
-	close (Socket_Servidor);
+   server.sin_port = htons(PORT); 
+   /* 驴Recuerdas a htons() de la secci贸n "Conversiones"? =) */
+
+   server.sin_addr.s_addr = INADDR_ANY; 
+   /* INADDR_ANY coloca nuestra direcci贸n IP autom谩ticamente */
+
+   bzero(&(server.sin_zero),8); 
+   /* escribimos ceros en el reto de la estructura */
+
+
+   /* A continuaci贸n la llamada a bind() */
+   if(bind(fd,(struct sockaddr*)&server,
+           sizeof(struct sockaddr))==-1) {
+      printf("error en bind() \n");
+      exit(-1);
+   }     
+
+   if(listen(fd,BACKLOG) == -1) {  /* llamada a listen() */
+      printf("error en listen()\n");
+      exit(-1);
+   }
+
+   while(1) {
+      sin_size=sizeof(struct sockaddr_in);
+      /* A continuaci贸n la llamada a accept() */
+      if ((fd2 = accept(fd,(struct sockaddr *)&client,
+                        &sin_size))==-1) {
+         printf("error en accept()\n");
+         exit(-1);
+      }
+
+      printf("Se obtuvo una conexi贸n desde %s\n",
+             inet_ntoa(client.sin_addr) ); 
+      /* que mostrar谩 la IP del cliente */
+
+      send(fd2,"Bienvenido a mi servidor.\n",22,0); 
+      /* que enviar谩 el mensaje de bienvenida al cliente */
+
+      close(fd2); /* cierra fd2 */
+   }
 }
+
