@@ -70,18 +70,20 @@ int Abre_Conexion_Inet (
 		return -1;
 
 	Direccion.sin_family = AF_INET;
-	Direccion.sin_addr.s_addr = ((struct in_addr *)(Host->h_addr))->s_addr;
+	Direccion.sin_addr.s_addr = ((struct in_addr *)Host->s_addr;
 	Direccion.sin_port = Puerto->s_port;
 	
 	Descriptor = socket (AF_INET, SOCK_STREAM, 0);
 	if (Descriptor == -1)
+	{
+		printf("socket() error\n");
 		return -1;
-
+	}
 	if (connect (
 			Descriptor, 
 			(struct sockaddr *)&Direccion, 
 			sizeof (Direccion)) == -1)
-	{
+	{	printf("connect() error\n");
 		return -1;
 	}
 
