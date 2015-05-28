@@ -54,24 +54,23 @@ int Abre_Conexion_Unix (char *Servicio)
 */
 int Abre_Conexion_Inet (
 	char *Host_Servidor, 
-	char *Servicio)
+	int puerto)
 {
 	struct sockaddr_in Direccion;
-	struct servent *Puerto;
+
 	struct hostent *Host;
 	int Descriptor;
 
-	Puerto = getservbyname (Servicio, "tcp");
-	if (Puerto == NULL)
-		return -1;
+  if ((Host=gethostbyname(Host_Servidor)==NULL)){       
+      /* llamada a gethostbyname() */
+      printf("gethostbyname() error\n");
+      return -1;
+   }
 
-	Host = gethostbyname (Host_Servidor);
-	if (Host == NULL)
-		return -1;
-
+	
 	Direccion.sin_family = AF_INET;
-	Direccion.sin_addr.s_addr = ((struct in_addr *)Host->s_addr;
-	Direccion.sin_port = Puerto->s_port;
+	Direccion.sin_addr.s_addr =(int) ((struct in_addr *)Host->h_addr);
+	Direccion.sin_port = htons(puerto);
 	
 	Descriptor = socket (AF_INET, SOCK_STREAM, 0);
 	if (Descriptor == -1)

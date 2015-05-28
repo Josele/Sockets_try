@@ -24,12 +24,14 @@ main ()
 	* alta en /etc/services. El número de dicho servicio debe ser 35557, que es
    * el que se ha puesto en el código java del cliente.
 	*/
+ printf ("aqui\n");
 	Socket_Servidor = Abre_Socket_Inet ("cpp_java");
 	if (Socket_Servidor == -1)
 	{
 		printf ("No se puede abrir socket servidor\n");
 		exit (-1);
 	}
+printf ("aqui\n");
 
 	/*
 	* Se espera un cliente que quiera conectarse

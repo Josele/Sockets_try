@@ -13,8 +13,8 @@ main ()
 	* Descriptor del socket y buffer para datos
 	*/
 	int Socket_Con_Servidor;
-   int Longitud_Cadena = 0;
-   int Aux;
+	int Longitud_Cadena = 0;
+ 	int Aux;
 	char Cadena[100];
 
 	/*
@@ -26,7 +26,7 @@ main ()
    * El servicio debe ser 35557 que es el puerto que va a atender el servidor
    * java.
 	*/
-	Socket_Con_Servidor = Abre_Conexion_Inet ("localhost", "cpp_java");
+	Socket_Con_Servidor = Abre_Conexion_Inet ("192.168.1.41",25557);
 	if (Socket_Con_Servidor == 1)
 	{
 		printf ("No puedo establecer conexion con el servidor\n");

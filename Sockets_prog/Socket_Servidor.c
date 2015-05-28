@@ -9,6 +9,8 @@
 */
 
 /* Includes del sistema */
+#include <stdio.h>
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>
@@ -118,9 +120,9 @@ int Abre_Socket_Inet (char *Servicio)
 	*/
 	Descriptor = socket (AF_INET, SOCK_STREAM, 0);
 	if (Descriptor == -1)
-		printf("error en socket()\n");
+	{	printf("error en socket()\n");
 	 	return -1;
-
+}
 	/*
 	* Se obtiene el servicio del fichero /etc/services
 	*/
@@ -143,8 +145,8 @@ int Abre_Socket_Inet (char *Servicio)
 	/* escribimos ceros en el reto de la estructura */
 
 	if (bind (
-			Descriptor,(struct sockaddr *)&servidor, 
-			sizeof (servidor)) == -1)
+			Descriptor,(struct sockaddr *)&server, 
+			sizeof (server)) == -1)
 	{	printf("error en bind() \n");
 		close (Descriptor);
 		return -1;
