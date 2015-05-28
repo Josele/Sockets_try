@@ -107,7 +107,7 @@ int Acepta_Conexion_Cliente (int Descriptor)
 */
 int Abre_Socket_Inet (char *Servicio)
 {
-	struct sockaddr_in Direccion;
+	struct sockaddr_in server;
 	struct sockaddr Cliente;
 	socklen_t Longitud_Cliente;
 	struct servent *Puerto;
@@ -118,6 +118,7 @@ int Abre_Socket_Inet (char *Servicio)
 	*/
 	Descriptor = socket (AF_INET, SOCK_STREAM, 0);
 	if (Descriptor == -1)
+		printf("error en socket()\n");
 	 	return -1;
 
 	/*
@@ -126,19 +127,25 @@ int Abre_Socket_Inet (char *Servicio)
 	Puerto = getservbyname (Servicio, "tcp");
 	if (Puerto == NULL)
 		return -1;
-
+	printf("Name: %-15s  Port: %5d    Protocol: %-6s\n",Puerto->s_name,ntohs(Puerto->s_port),Puerto->s_proto);
+	
 	/*
 	* Se rellenan los campos de la estructura Direccion, necesaria
 	* para la llamada a la funcion bind()
 	*/
-	Direccion.sin_family = AF_INET;
-	Direccion.sin_port = Puerto->s_port;
-	Direccion.sin_addr.s_addr =INADDR_ANY;
+	server.sin_family = AF_INET;
+	//elo que viene podría dar problemas
+	server.sin_port = Puerto->s_port;
+	
+	server.sin_addr.s_addr =INADDR_ANY;
+	
+	bzero(&(server.sin_zero),8); 
+	/* escribimos ceros en el reto de la estructura */
+
 	if (bind (
-			Descriptor, 
-			(struct sockaddr *)&Direccion, 
-			sizeof (Direccion)) == -1)
-	{
+			Descriptor,(struct sockaddr *)&servidor, 
+			sizeof (servidor)) == -1)
+	{	printf("error en bind() \n");
 		close (Descriptor);
 		return -1;
 	}
@@ -147,7 +154,7 @@ int Abre_Socket_Inet (char *Servicio)
 	* Se avisa al sistema que comience a atender llamadas de clientes
 	*/
 	if (listen (Descriptor, 1) == -1)
-	{
+	{	printf("error en listen()\n");
 		close (Descriptor);
 		return -1;
 	}
