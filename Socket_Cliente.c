@@ -1,9 +1,9 @@
-/* Javier Abell·n, 20 Junio 2000
+/* Javier Abell√°n, 20 Junio 2000
  *
  * Funciones para abrir/establecer sockets de un cliente con un servidor.
  *
  * MODIFICACIONES:
- * 4 Septiembre 2003. AÒadida funciÛn Abre_Conexion_Udp()
+ * 4 Septiembre 2003. A√±adida funci√≥n Abre_Conexion_Udp()
  */
 
 
@@ -25,7 +25,7 @@
 * Conecta con un servidor remoto a traves de socket INET
 */
 int Abre_Conexion_Inet (
-	char *Host_Servidor[], 
+	char *Host_Servidor, 
 	int Servicio)
 {
 	struct sockaddr_in Direccion;
@@ -34,7 +34,7 @@ int Abre_Conexion_Inet (
 	int Descriptor;
 
 
-	Host = gethostbyname (Host_Servidor[1]);
+	Host = gethostbyname (Host_Servidor);
 	if (Host == NULL)
 		return -1;
 

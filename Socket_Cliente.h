@@ -14,6 +14,6 @@
  * Host_Servidor debe estar dado de alta en /etc/hosts.
  * Servicio debe estar dado de alta en /etc/services como tcp.
  */
-int Abre_Conexion_Inet (char *Host_Servidor[], int Servicio);
+int Abre_Conexion_Inet (char *Host_Servidor, int Servicio);
 
 #endif

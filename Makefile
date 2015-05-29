@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-g -Wall -O -I.
 LDFLAGS=
 LDLIBS=
-all : Server Cliente
+all : Socket.o Socket_Servidor.o Socket_Cliente.o Server Cliente
 
 Server : Server.o  Socket_Servidor.o Socket.o
 

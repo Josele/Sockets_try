@@ -19,15 +19,16 @@ int main ()
 	*/
 	int Socket_Con_Servidor;
 	char Cadena[100];
-
+	char IP[]="10.7.15.171";
+	strcpy (IP,"10.7.15.171");
 	/*
 	* Se abre la conexion con el servidor, pasando el nombre del ordenador
 	* y el servicio solicitado.
 	* "localhost" corresponde al nombre del mismo ordenador en el que
 	* estamos corriendo. Esta dado de alta en /etc/hosts
-	* "cpp_java" es un servicio dado de alta en /etc/services
+	* "cpp_java" es un servicio dado de alta maen /etc/services
 	*/
-	Socket_Con_Servidor = Abre_Conexion_Inet ("10.7.15.189", 3550);
+	Socket_Con_Servidor = Abre_Conexion_Inet (IP, 45000);
 	if (Socket_Con_Servidor == 1)
 	{
 		printf ("No puedo establecer conexion con el servidor\n");
