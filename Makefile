@@ -4,7 +4,7 @@ LDFLAGS=
 LDLIBS=
 all : Server 
 
-Server : Server.o Socket_Servidor.o 
+Server : Server.o Socket_Servidor.o Socket.o
 
 clean:
 	$(RM) *.o *~ m Server
