@@ -61,7 +61,7 @@ int Acepta_Conexion_Cliente (int Descriptor)
 *	del socket o -1 si hay probleamas
 * 
 */
-int Abre_Socket_Inet (char *Servicio, uint16_t Port,int Backlog)
+int Abre_Socket_Inet ( uint16_t Port,int Backlog)
 {
 	struct sockaddr_in Direccion;
 	
