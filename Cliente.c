@@ -39,7 +39,7 @@ int main ()
 	* Se prepara una cadena con 5 caracteres y se envia, 4 letras mas
 	* el \0 que indica fin de cadena en C
 	*/
-	Cadena[0]=(char)215;
+	Cadena[0]='8';
 	
 
 	Escribe_Socket (Socket_Con_Servidor, Cadena, 1);
