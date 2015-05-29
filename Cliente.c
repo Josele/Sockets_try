@@ -39,20 +39,23 @@ int main ()
 	* Se prepara una cadena con 5 caracteres y se envia, 4 letras mas
 	* el \0 que indica fin de cadena en C
 	*/
-	strcpy (Cadena, "Hola");
-	Escribe_Socket (Socket_Con_Servidor, Cadena, 5);
+	Cadena[0]=(char)8;
+	
+	
+	Escribe_Socket (Socket_Con_Servidor, Cadena, 1);
 
 	/*
 	* Se lee la informacion enviada por el servidor, que se supone es
 	* una cadena de 6 caracteres.
 	*/
-	Lee_Socket (Socket_Con_Servidor, Cadena, 6);
+	Lee_Socket (Socket_Con_Servidor, Cadena, 2);
 
 	/*
 	* Se escribe en pantalla la informacion recibida del servidor
 	*/
 	printf ("Soy cliente, He recibido : %s\n", Cadena);
-
+	strcpy (Cadena, "mi casa ");
+	Escribe_Socket (Socket_Con_Servidor, Cadena, 1);
 	/*
 	* Se cierra el socket con el servidor
 	*/

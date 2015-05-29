@@ -65,7 +65,7 @@ send(Des_Clit,"OK",2,0);
 }
 static void  execute (fsm_t* this)
 {
-
+printf ("Soy servidor, He recibido : %s\n", buf);
 	//ejecutamos y respondemos con el OK o error
 send(Des_Clit,"OK",2,0);
 
@@ -91,7 +91,7 @@ int main()
 {
 
 
-Des_Ser=Abre_Socket_Inet (PORT,2);
+Des_Ser=Abre_Socket_Inet (PORT,1);
   
   fsm_t* serv_fsm = fsm_new (serv);
 while(1){
