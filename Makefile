@@ -4,7 +4,7 @@ LDFLAGS=
 LDLIBS=
 all : Socket.o Socket_Servidor.o Socket_Cliente.o Server Cliente
 
-Server : Server.o  Socket_Servidor.o Socket.o
+Server : Server.o  Socket_Servidor.o Socket.o fsm.o 
 
 Cliente : Cliente.c Socket_Cliente.o Socket.o
 
