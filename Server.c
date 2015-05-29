@@ -31,6 +31,7 @@ static int sckt_weight (fsm_t* this)
 {
  if(-1==Lee_Socket(Des_Clit,buf,1)){
 printf("error de lectura\n");
+printf ("Soy servidor, He recibido : %s\n", buf);
 return 0;}
 return 1;
 }
@@ -38,6 +39,7 @@ static int sckt_instruc (fsm_t* this)
 {
  if(-1==Lee_Socket(Des_Clit,buf,(int)buf[0])){
 printf("error de lectura\n");
+
 return 0;
 }
 
