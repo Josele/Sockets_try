@@ -10,6 +10,7 @@
 #define MAXDATASIZE 100
 #define PORT 45000
 static char buf[MAXDATASIZE];  
+volatile int tam;
 volatile static int Des_Ser;
 volatile static int Des_Clit;
 enum serv_state {
@@ -31,13 +32,15 @@ static int sckt_weight (fsm_t* this)
 {
  if(-1==Lee_Socket(Des_Clit,buf,1)){
 printf("error de lectura\n");
-printf ("Soy servidor, He recibido : %s\n", buf);
 return 0;}
+tam=buf[0]-48;
+printf ("Soy servidor, He recibido : %d\n", buf[0]-48);
+
 return 1;
 }
 static int sckt_instruc (fsm_t* this)
 {
- if(-1==Lee_Socket(Des_Clit,buf,(int)buf[0])){
+ if(-1==Lee_Socket(Des_Clit,buf,tam)){
 printf("error de lectura\n");
 
 return 0;
@@ -63,7 +66,8 @@ static void something (fsm_t* this)
 
 static void  ack (fsm_t* this)
 {
-send(Des_Clit,"OK",2,0);
+strcpy (buf, "OK");
+Escribe_Socket (Des_Clit, buf, 2);
 }
 static void  execute (fsm_t* this)
 {
