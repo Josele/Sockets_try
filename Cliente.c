@@ -1,20 +1,23 @@
 /*
-* Javier Abellan, 9 Dic 2003
+* Javier Abellan, 20 Jun 2000
 *
-* Programa Cliente de un socket INET, que se conectará con un servidor java.
+* Programa Cliente de un socket INET, como ejemplo de utilizacion
+* de las funciones de sockets
 */
+#include <sys/socket.h>
+#include <sys/types.h>
 #include <stdio.h>
-#include <Socket_Cliente.h>
-#include <Socket.h>
-
-main ()
+#include "Socket_Cliente.h"
+#include "Socket.h"
+#include <string.h>
+#include <unistd.h>
+#include <ctype.h>
+int main ()
 {
 	/*
 	* Descriptor del socket y buffer para datos
 	*/
 	int Socket_Con_Servidor;
-	int Longitud_Cadena = 0;
- 	int Aux;
 	char Cadena[100];
 
 	/*
@@ -22,44 +25,36 @@ main ()
 	* y el servicio solicitado.
 	* "localhost" corresponde al nombre del mismo ordenador en el que
 	* estamos corriendo. Esta dado de alta en /etc/hosts
-	* "cpp_java" es un servicio dado de alta en /etc/services.
-   * El servicio debe ser 35557 que es el puerto que va a atender el servidor
-   * java.
+	* "cpp_java" es un servicio dado de alta en /etc/services
 	*/
-	Socket_Con_Servidor = Abre_Conexion_Inet ("192.168.1.41",25557);
+	Socket_Con_Servidor = Abre_Conexion_Inet ("10.7.15.189", 3550);
 	if (Socket_Con_Servidor == 1)
 	{
 		printf ("No puedo establecer conexion con el servidor\n");
-		exit (-1);
+		return (-1);
 	}
 
-   /* Se lee un entero con la longitud de la cadena, incluido el \0 */
-   Lee_Socket (Socket_Con_Servidor, (char *)&Aux, sizeof(int));
-   Longitud_Cadena = ntohl (Aux);
-   printf ("Cliente C: Recibido %d\n", Longitud_Cadena-1);
-
-   /* Se lee la cadena de la longitud indicada */
-   Lee_Socket (Socket_Con_Servidor, Cadena, Longitud_Cadena);
-   printf ("Cliente C: Recibido %s\n", Cadena);
-   
 	/*
-    * Se va a enviar una cadena de 6 caracteres, incluido el \0. Previamente se
-    * envía un entero con el 6.
+	* Se prepara una cadena con 5 caracteres y se envia, 4 letras mas
+	* el \0 que indica fin de cadena en C
 	*/
-	strcpy (Cadena, "Adios");
-   Longitud_Cadena = 6;
+	strcpy (Cadena, "Hola");
+	Escribe_Socket (Socket_Con_Servidor, Cadena, 5);
 
-   /* Antes de enviar el entero hay que transformalo a formato red */
-   Aux = htonl (Longitud_Cadena);
-   Escribe_Socket (Socket_Con_Servidor, (char *)&Aux, sizeof(Longitud_Cadena));
-   printf ("Cliente C: Enviado %d\n", Longitud_Cadena-1);
+	/*
+	* Se lee la informacion enviada por el servidor, que se supone es
+	* una cadena de 6 caracteres.
+	*/
+	Lee_Socket (Socket_Con_Servidor, Cadena, 6);
 
-   /* Se envía la cadena */
-	Escribe_Socket (Socket_Con_Servidor, Cadena, Longitud_Cadena);
-   printf ("Cliente C: Enviado %s\n", Cadena);
+	/*
+	* Se escribe en pantalla la informacion recibida del servidor
+	*/
+	printf ("Soy cliente, He recibido : %s\n", Cadena);
 
 	/*
 	* Se cierra el socket con el servidor
 	*/
 	close (Socket_Con_Servidor);
+return 0;
 }
