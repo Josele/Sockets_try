@@ -4,9 +4,9 @@
 #include <string.h>
 #include <unistd.h>
 #include <ctype.h>
-#include "Socket_Servidor.h"
-#include "Socket.h"
-#include "fsm.h"
+#include "LibSock/Socket_Servidor.h"
+#include "LibSock/Socket.h"
+#include "LibSock/fsm.h"
 #define MAXDATASIZE 100
 #define PORT 45000
 static char buf[MAXDATASIZE];  

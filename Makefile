@@ -1,13 +1,14 @@
 CC=gcc
-CFLAGS=-g -Wall -O -I.
+CFLAGS=-g -Wall -O -I. 
 LDFLAGS=
 LDLIBS=
-all : Socket.o Socket_Servidor.o Socket_Cliente.o Server Cliente
+all :  Server Cliente
 
-Server : Server.o  Socket_Servidor.o Socket.o fsm.o 
+Server :  LibSock/Socket_Servidor.o LibSock/Socket.o LibSock/fsm.o Server.o
 
-Cliente : Cliente.c Socket_Cliente.o Socket.o
+Cliente : LibSock/Socket_Cliente.o LibSock/Socket.o Cliente.o 
+
 
 clean:
-	$(RM) *.o *~ m Server Cliente
+	$(RM) *.o *~ m Server Cliente LibSock/*.o LibSock/*.~
 

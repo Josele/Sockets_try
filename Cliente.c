@@ -7,8 +7,8 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <stdio.h>
-#include "Socket_Cliente.h"
-#include "Socket.h"
+#include "LibSock/Socket_Cliente.h"
+#include "LibSock/Socket.h"
 #include <string.h>
 #include <unistd.h>
 #include <ctype.h>
