@@ -74,7 +74,7 @@ memset(buf,'\0',MAXDATASIZE);
 static void  execute (fsm_t* this)
 {
 printf ("Soy servidor, He recibido : %s\n", buf);
-memset(buf,'\0',MAXDATASIZE);
+
 	//ejecutamos y respondemos con el OK o error
 send(Des_Clit,"OK",2,0);
 
@@ -109,4 +109,21 @@ while(1){
 }
 
 return 0;
+}/*
+*Lo más facil y elegante es añadir getter y setters. Lanzando la máquina de estado en el interp, el getter sería como un notify.
+*Lo más rapido es rehacer el interp para que convivan con los sockets
+*Otras opciones son hebras y punteros.
+int socket_interp()
+{
+
+
+Des_Ser=Abre_Socket_Inet (PORT,1);
+  
+  fsm_t* serv_fsm = fsm_new (serv);
+while(1){
+
+ fsm_fire (serv_fsm); 
 }
+
+return 0;
+}*/
