@@ -29,12 +29,12 @@ return 1;
 }
 
 static int sckt_weight (fsm_t* this)
-{
+{//int resultado=recvform(Des_Clit,buf,MAXDATASIZE,);
  if(-1==Lee_Socket(Des_Clit,buf,1)){
 printf("error de lectura\n");
 return 0;}
-tam=buf[0]-48;
-printf ("Soy servidor, He recibido : %d\n", buf[0]-48);
+tam=(int)buf[0];
+printf ("Soy servidor, He recibido : %d\n", tam);
 
 return 1;
 }
