@@ -19,7 +19,7 @@ int main ()
 	*/
 	int Socket_Con_Servidor;
 	char Cadena[100];
-	char IP[]="10.7.15.213";
+	char IP[]="192.168.1.38";
 	//strcpy (IP,"10.7.15.213");
 	/*
 	* Se abre la conexion con el servidor, pasando el nombre del ordenador
@@ -39,7 +39,7 @@ int main ()
 	* Se prepara una cadena con 5 caracteres y se envia, 4 letras mas
 	* el \0 que indica fin de cadena en C
 	*/
-	Cadena[0]='8';
+	Cadena[0]=(char)12;
 	
 
 	Escribe_Socket (Socket_Con_Servidor, Cadena, 1);
@@ -55,8 +55,8 @@ int main ()
 	* Se escribe en pantalla la informacion recibida del servidor
 	*/
 	printf ("Soy cliente, He recibido : %s \n", Cadena);
-	strcpy (Cadena, "mi casa ");
-	Escribe_Socket (Socket_Con_Servidor, Cadena, 1);
+	strcpy (Cadena, "mi casa jojo");
+	Escribe_Socket (Socket_Con_Servidor, Cadena, 12);
 	/*
 	* Se cierra el socket con el servidor
 	*/
