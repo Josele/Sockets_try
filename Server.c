@@ -66,12 +66,15 @@ static void something (fsm_t* this)
 
 static void  ack (fsm_t* this)
 {
+memset(buf,'\0',MAXDATASIZE);
 strcpy (buf, "OK");
 Escribe_Socket (Des_Clit, buf, 2);
+memset(buf,'\0',MAXDATASIZE);
 }
 static void  execute (fsm_t* this)
 {
 printf ("Soy servidor, He recibido : %s\n", buf);
+memset(buf,'\0',MAXDATASIZE);
 	//ejecutamos y respondemos con el OK o error
 send(Des_Clit,"OK",2,0);
 
@@ -79,7 +82,7 @@ send(Des_Clit,"OK",2,0);
 }
 static void finish (fsm_t* this)
 {
-
+memset(buf,'\0',MAXDATASIZE);
 
 // podemos añadir un flag con un flag con un break etc
 
