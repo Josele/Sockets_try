@@ -6,7 +6,7 @@
 #include <ctype.h>
 #include "LibSock/Socket_Servidor.h"
 #include "LibSock/Socket.h"
-#include "LibSock/fsm.h"
+#include "Server.h"
 #define MAXDATASIZE 100
 #define PORT 45000
 static char buf[MAXDATASIZE];  
@@ -96,6 +96,22 @@ static fsm_trans_t serv[] = {
   {-1, NULL, -1, NULL },
 };
 
+
+void Des_Ser_init(){
+Des_Ser=Abre_Socket_Inet (PORT,1);
+
+}
+
+
+fsm_t* serv_init(){
+fsm_t* serv_fsm = fsm_new (serv);
+return serv_fsm;
+}
+void serv_state_trans(fsm_t* serv_fsm){
+fsm_fire (serv_fsm); 
+
+}
+/*
 int main()
 {
 
@@ -109,7 +125,8 @@ while(1){
 }
 
 return 0;
-}/*
+}*/
+/*
 *Lo más facil y elegante es añadir getter y setters. Lanzando la máquina de estado en el interp, el getter sería como un notify.
 *Lo más rapido es rehacer el interp para que convivan con los sockets
 *Otras opciones son hebras y punteros.
