@@ -19,9 +19,11 @@ int main (int argc, char *argv[])
 	*/
 	int Socket_Con_Servidor;
 	char Cadena[100];
-	char IP[]="192.168.1.38";
+	char IP[]="10.7.15.213";
 	char length[10];
 	char valid[2];
+	int i;
+	int temp=0;
 	//strcpy (IP,"10.7.15.213");
 	/*
 	* Se abre la conexion con el servidor, pasando el nombre del ordenador
@@ -46,10 +48,17 @@ int main (int argc, char *argv[])
         strcpy (Cadena, "mi ejemplo f");
 	}else
 	{
-	length[0]=(int)strlen(argv[1]);
-	strcpy(Cadena,argv[1]);
+	for(i=1;i<argc;i++){
+
+	
+	temp=(temp+(int)strlen(argv[i])+1);
+	strcat(Cadena, argv[i]); 
+	strcat(Cadena," ");
+ 	}
+	length[0]=temp;
 	}
 		
+	
 	Escribe_Socket (Socket_Con_Servidor, length, 1);
 	
 	/*
