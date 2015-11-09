@@ -19,7 +19,7 @@ int main (int argc, char *argv[])
 	*/
 	int Socket_Con_Servidor;
 	char Cadena[100];
-	char IP[]="10.7.15.213";
+	char IP[]="192.168.1.41";
 	char length[10];
 	char valid[2];
 	int i;

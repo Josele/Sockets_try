@@ -32,7 +32,7 @@ return 1;
 static int sckt_weight (fsm_t* this)
 {//int resultado=recvform(Des_Clit,buff,MAXDATASIZE,);
  if(-1==Lee_Socket(Des_Clit,buff,1)){
-printf("error de lectura\n");
+printf("error de lectura en weight\n");
 return 0;}
 tam=(int)buff[0];
 printf ("Soy servidor, He recibido : %d\n", tam);
@@ -42,7 +42,7 @@ return 1;
 static int sckt_instruc (fsm_t* this)
 {
  if(-1==Lee_Socket(Des_Clit,buff,tam)){
-printf("error de lectura\n");
+printf("error de lectura en instruc\n");
 
 return 0;
 }
@@ -67,9 +67,10 @@ static void something (fsm_t* this)
 
 static void  ack (fsm_t* this)
 {
+
 memset(buff,'\0',MAXDATASIZE);
 strcpy (buff, "OK");
-Escribe_Socket (Des_Clit, buff, 2);
+ Escribe_Socket(Des_Clit,buff, 2);
 memset(buff,'\0',MAXDATASIZE);
 }
 static void  execute (fsm_t* this)
